@@ -10,3 +10,11 @@ export const login = (mobile, code) => {
     }
   })
 }
+// 验证码验证登录
+
+export const sendCode = (mobile) => {
+  return request({
+    url: `/v1_0/sms/codes/${mobile}`,
+    method: 'GET'
+  })
+}
