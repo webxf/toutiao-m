@@ -21,10 +21,10 @@
           <span>问答</span>
         </template>
       </van-tabbar-item>
-      <van-tabbar-item to="profile">
+      <van-tabbar-item to="/profile">
         <template #icon>
           <i class="iconfont icon-wode"></i>
-          <span>我的</span>
+          <span>{{ !!$store.state.user.token ? '我的' : '未登录' }}</span>
         </template>
       </van-tabbar-item>
     </van-tabbar>
@@ -34,9 +34,7 @@
 <script>
 export default {
   data() {
-    return {
-      active: 0
-    }
+    return {}
   }
 }
 </script>

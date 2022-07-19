@@ -1,12 +1,7 @@
 <template>
   <div>
     <!-- 头部header部分 -->
-    <van-nav-bar
-      title="登录"
-      left-arrow
-      @click-left="onClickLeft"
-      class="navbar"
-    >
+    <van-nav-bar title="登录" left-arrow @click="$router.back()" class="navbar">
       <template #left>
         <van-icon name="cross" />
       </template>
@@ -69,9 +64,6 @@ export default {
     }
   },
   methods: {
-    onClickLeft() {
-      Toast('返回')
-    },
     onClickRight() {
       Toast('按钮')
     },
@@ -84,8 +76,9 @@ export default {
         const res = await login(this.mobile, this.code)
         console.log(res) // 拿到的是axios对本次请求的resolve的结果
         this.$store.commit('setUser', res.data.data)
-        this.$router.push('/layout')
+
         this.$toast.success('登陆成功')
+        this.$router.back()
       } catch (err) {
         console.log(err) // 拿到的是axios对本次请求失败的reject的结果   err.response.status表示失败的状态码  err.response.data可以获取失败时候的data数据
         const status = err.response.status

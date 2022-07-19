@@ -18,3 +18,11 @@ export const sendCode = (mobile) => {
     method: 'GET'
   })
 }
+
+// 获取个人信息
+export const getUserInfo = () => {
+  return request({
+    url: '/v1_0/user',
+    method: 'GET'
+  })
+}
