@@ -2,21 +2,21 @@
   <div>
     <van-nav-bar class="navbar">
       <template #title>
-        <van-button round>
+        <van-button round @click="$router.push('/search')">
           <van-icon name="search" />
           搜索
         </van-button>
       </template>
     </van-nav-bar>
     <van-tabs v-model="active" swipeable>
-      <van-tab :title="item.name" v-for="item in channelList" :key="item.id">
+      <van-tab :title="item.name" v-for="item in myChannels" :key="item.id">
         <articleList :id="item.id"></articleList>
       </van-tab>
       <span class="iconfont icon-gengduo" @click="isShowPop"></span>
     </van-tabs>
     <EditChannel
       ref="popup"
-      :myChannels="channelList"
+      :myChannels="myChannels"
       @del-channel="deleteFn"
       @change-channel="changeChannel"
       @addchannel="addchannels"
@@ -25,20 +25,19 @@
 </template>
 
 <script>
-import {
-  getChannels,
-  setMychannelsToLocal,
-  getMychannelsByLocal,
-  delChannels,
-  addChannels
-} from '@/api/channel'
+import // getChannels,
+// setMychannelsToLocal,
+// getMychannelsByLocal,
+// delChannels,
+// addChannels
+'@/api/channel'
 import articleList from './component/articleList.vue'
 import EditChannel from './component/EditChannel.vue'
 export default {
   data() {
     return {
       active: 0,
-      channelList: [],
+      myChannels: [],
       isShow: false
     }
   },
@@ -56,51 +55,51 @@ export default {
   },
   methods: {
     async getChannels() {
-      try {
-        if (!this.isLogin) {
-          const myChannels = getMychannelsByLocal()
-          if (myChannels) {
-            this.channelList = myChannels
-          } else {
-            const { data } = await getChannels()
-            // console.log(data)
-            this.channelList = data.data.channels
-          }
-        }
-      } catch (err) {
-        this.$toast.fail('获取列表失败')
-      }
+      // try {
+      //   if (!this.isLogin) {
+      //     const myChannels = getMychannelsByLocal()
+      //     if (myChannels) {
+      //       this.myChannels = myChannels
+      //     } else {
+      //       const { data } = await getChannels()
+      //       // console.log(data)
+      //       this.myChannels = data.data.channels
+      //     }
+      //   }
+      // } catch (err) {
+      //   this.$toast.fail('获取列表失败')
+      // }
     },
     isShowPop() {
       this.$refs.popup.isShow = true
     },
     async deleteFn(id) {
-      this.channelList = this.channelList.filter((item) => item.id !== id)
-      if (!this.isLogin) {
-        setMychannelsToLocal(this.channelList)
-      } else {
-        try {
-          await delChannels(id)
-        } catch (err) {
-          this.$toast('删除失败')
-        }
-      }
+      this.myChannels = this.myChannels.filter((item) => item.id !== id)
+      // if (!this.isLogin) {
+      //   setMychannelsToLocal(this.myChannels)
+      // } else {
+      //   try {
+      //     await delChannels(id)
+      //   } catch (err) {
+      //     this.$toast('删除失败')
+      //   }
+      // }
       this.$toast.success('删除成功')
     },
     changeChannel(val) {
       this.active = val
     },
     async addchannels(val) {
-      this.channelList.push(val)
-      if (!this.isLogin) {
-        setMychannelsToLocal(this.channelList)
-      } else {
-        try {
-          await addChannels(val.id, this.channelList.length)
-        } catch (err) {
-          return this.$toast.fail('添加失败')
-        }
-      }
+      this.myChannels.push(val)
+      // if (!this.isLogin) {
+      //   setMychannelsToLocal(this.myChannels)
+      // } else {
+      //   try {
+      //     await addChannels(val.id, this.myChannels.length)
+      //   } catch (err) {
+      //     return this.$toast.fail('添加失败')
+      //   }
+      // }
       this.$toast.success('添加成功')
     }
   }
